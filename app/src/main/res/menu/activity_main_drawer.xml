@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/add_new"
+            android:title="Add New Trip" />
+        <item
+            android:id="@+id/view_all"
+            android:title="View All Trips" />
+        <item
+            android:id="@+id/add_expense"
+            android:title="Add Expense" />
+        <item
+            android:id="@+id/view_balance"
+            android:title="View Balance Budget" />
+        <item
+            android:id="@+id/reports"
+            android:title="Reports" />
+    </group>
+    <!--
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+     -->
+
+</menu>
