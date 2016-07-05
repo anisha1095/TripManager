@@ -1,9 +1,8 @@
 package com.hp.tripmanager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,22 +15,27 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    DrawerLayout drawer;
+    Toolbar toolbar;
+    ActionBarDrawerToggle toggle;
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Intent i=new Intent(this,LoginActivity.class);
+        //startActivity(i);
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }//end of onCreate
 
     @Override
@@ -73,10 +77,16 @@ public class MainActivity extends AppCompatActivity
        int id = item.getItemId();
 
         if (id == R.id.add_new) {
-            // Handle the camera action
+            Intent i=new Intent(MainActivity.this,TripActivity.class);
+            startActivity(i);
         } else if (id == R.id.view_all) {
 
         } else if (id == R.id.add_expense) {
+            SharedPreferences sp=getSharedPreferences("TripDB",0);
+            int x=sp.getInt("TID",100);
+            Intent i=new Intent(MainActivity.this,ExpenseActivity.class);
+            i.putExtra("TID",x);
+            startActivity(i);
 
         } else if (id == R.id.view_balance) {
 
@@ -87,4 +97,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

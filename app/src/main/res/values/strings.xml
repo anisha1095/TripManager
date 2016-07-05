@@ -19,4 +19,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_trip_expense">TripExpenseActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="sign_in">SIGN IN</string>
 </resources>
