@@ -3,6 +3,7 @@ package com.hp.tripmanager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class ExpenseActivity extends MainActivity {
     int s;
     Button b1;
     String category[] = {"Food and drinks", "Transport", "Health", "Accommodation", "Leisure", "Miscellaneous"};
-
+    int pos;
     public void show(String msg)//toast method
     {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -38,9 +39,9 @@ public class ExpenseActivity extends MainActivity {
         LayoutInflater inflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView=inflater.inflate(R.layout.activity_expense,null,false);
         drawer.addView(contentView,0);
+
         Intent i=getIntent();
-        s=i.getIntExtra("TID",100);
-        final int[] pos = new int[1];
+
         b1 = (Button) findViewById(R.id.button1);
 
         et1 = (EditText) findViewById(R.id.editText1);//amount
@@ -57,7 +58,7 @@ public class ExpenseActivity extends MainActivity {
         {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                pos[0] =position;
+                pos =position;
                 show("You Selected: " + category[position]);
 
             }
@@ -68,32 +69,33 @@ public class ExpenseActivity extends MainActivity {
             }
         });//end of spinner
 
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int y;
-               // show("hello");
-                SQLiteDatabase db = openOrCreateDatabase("Expense", MODE_APPEND, null);
-               // show("hello2");
-                db.execSQL(" Create table if not exists Expense (ExpenseID integer primary key autoincrement,Category varchar,Amount Varchar,Expense_Date varchar,TripID varchar)");
-               // show("hello1");
+                SharedPreferences sp=getSharedPreferences("TripDB",0);
+                int y=sp.getInt("EID",100);
+                s=sp.getInt("TID",100);
 
-                //  String id=db.rawQuery("select  from ")
-                SharedPreferences sp=getSharedPreferences("ExpenseDb",0);
-                y=sp.getInt("EID",100);
-                db.execSQL("insert into Expense values('EID"+y+ ",'"+category[pos[0]]+"','"+ et1.getText().toString() + "','" +
-                        et2.getText().toString() + "','TID"+ s + "')");
-                show("Trip ID:TID" + s + "Expense ID:EID" + y);
-                show(category[pos[0]]);
-                y++;
-                SharedPreferences.Editor editor =sp.edit();
-                editor.putInt("EID",y);
-                editor.commit();
+                SQLiteDatabase db = openOrCreateDatabase("TripExpense", MODE_APPEND, null);
+                db.execSQL(" Create table if not exists Expenses(ExpenseID integer primary key autoincrement,Category varchar,Amount Varchar,Expense_Date varchar,TripID varchar)");
+                db.execSQL("insert into Expenses values( null"+ ",'"+category[pos]+"','"+ et1.getText().toString() + "','" +
+                        et2.getText().toString() + "','"+ s + "')");
+                show("Trip ID:T" + s + "Expense ID:E" + y);
+                show(category[pos]);
 
-                // db.execSQL("Drop table expense");
-            }
+
+                }
+
+
         });
+
         
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
 

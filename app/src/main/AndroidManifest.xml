@@ -40,7 +40,23 @@
             android:name=".ExpenseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity
+            android:name=".BudgetValueActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewAllActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".RadioActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".DaywiseActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".TripwiseActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".CategorywiseActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,8 +64,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.about) {
+
+       Intent i=new Intent(MainActivity.this,AboutActivity.class);
+            startActivity(i);
+        }
+        else if(id==R.id.logout){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            //Intent i=new Intent(MainActivity.this,LoginActivity.class);
+            Toast.makeText(MainActivity.this,"User Logged Out",Toast.LENGTH_LONG).show();
+            //startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -80,17 +91,23 @@ public class MainActivity extends AppCompatActivity
             Intent i=new Intent(MainActivity.this,TripActivity.class);
             startActivity(i);
         } else if (id == R.id.view_all) {
+            Intent i=new Intent(MainActivity.this,ViewAllActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.add_expense) {
-            SharedPreferences sp=getSharedPreferences("TripDB",0);
-            int x=sp.getInt("TID",100);
+
             Intent i=new Intent(MainActivity.this,ExpenseActivity.class);
-            i.putExtra("TID",x);
+
             startActivity(i);
 
         } else if (id == R.id.view_balance) {
+            Intent i=new Intent(MainActivity.this,BudgetValueActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.reports) {
+            Intent i=new Intent(MainActivity.this,RadioActivity.class);
+            startActivity(i);
+
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:hint="Date of Birth"
+        android:hint="Date of Birth (MM/DD/YYYY)"
         android:id="@+id/editTextDOB"
         android:layout_gravity="center_horizontal" />
 

@@ -2,10 +2,8 @@ package com.hp.tripmanager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,7 @@ import android.widget.Toast;
 
 public class LoginResultActivity extends MainActivity {
   TextView tv;
+    Thread t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,21 +26,11 @@ public class LoginResultActivity extends MainActivity {
         Intent i=getIntent();
         String s1=i.getStringExtra("USER");
         String s2=i.getStringExtra("PASS");
-
-        SQLiteDatabase db=openOrCreateDatabase("Accounts", MODE_APPEND,null);   //if file doesnt exist the open new else just open
-        //db.execSQL("create table if not exists Login(user varchar,password varchar)");
-
-       // SharedPreferences sp=getSharedPreferences("LoginDB_file",0);
-        //String msg=sp.getString("STATUS","Not Initialized");
-        //if(msg.equals("Not Initialized")) {
-            //db.execSQL("insert into Login (user,password) values('anishajauhari','ani1095')");
-          //  SharedPreferences.Editor editor =sp.edit();
-            //editor.putString("STATUS","Initialized");
-            //editor.commit();
-        //}
-        //else{
+        s1=s1.trim();
+        s2=s2.trim();
+        SQLiteDatabase db=openOrCreateDatabase("TripExpense", MODE_APPEND,null);   //if file doesnt exist the open new else just open
         int flag=0;
-        String q="select * from LOGIN";
+        String q="select * from login";
         Cursor c= db.rawQuery(q,null);
         String user,pass;
         while(c.moveToNext()) {
@@ -52,24 +41,30 @@ public class LoginResultActivity extends MainActivity {
                 flag=1;
                 break;
             }
-       // }
+
         }
         if(flag==0){
-            Toast.makeText(LoginResultActivity.this,"User Not in Database. please create an account first",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginResultActivity.this,"User Not in Database or incorrect password /username ",Toast.LENGTH_LONG).show();
+            Intent j=new Intent(this,LoginActivity.class);
+            startActivity(j);
+        }
+        else{
+            t=new Thread(){
+                public void run(){
+                    try{
+                        t.sleep(2000);
+                        Intent k=new Intent(LoginResultActivity.this,BudgetValueActivity.class);
+                        startActivity(k);
+                    }catch(Exception e){}
+
+                }
+            };
+
         }
 
-    }
-    /*
-    public void newtrip(View v){
-        Intent i=new Intent(LoginResultActivity.this,TripActivity.class);
-        startActivity(i);
-        finish();
+        t.start();
+
 
     }
-    public void newexpense(View v){
-     //  Intent i=new Intent(this,ExpenseActivity.class);
-       // startActivity(i);
-        //finish();
-    }
-    */
+
 }

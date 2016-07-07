@@ -15,8 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TripActivity extends MainActivity {
-  EditText et1,et2,et3,et4,et5;
- CoordinatorLayout c;
+  EditText et1,et2,et3,et4,et5,et6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,38 +27,44 @@ public class TripActivity extends MainActivity {
         drawer.addView(contentView,0);
         Intent i=getIntent();
 
-        et1=(EditText)findViewById(R.id.editText2);
-        et2=(EditText)findViewById(R.id.editText3);
-        et3=(EditText)findViewById(R.id.editText4);
-        et4=(EditText)findViewById(R.id.editText5);
-        et5=(EditText)findViewById(R.id.editText6);
+        et1=(EditText)findViewById(R.id.editText2);//destination
+        et2=(EditText)findViewById(R.id.editText3);//startdate
+        et3=(EditText)findViewById(R.id.editText4);//enddate
+        et4=(EditText)findViewById(R.id.editText5);//budget
+        et5=(EditText)findViewById(R.id.editText6);//from
+        et6=(EditText)findViewById(R.id.editText7);//tripid
 
     }//end of onCreate()
-    public void newtrip(View v){
 
-        int x;
-        SQLiteDatabase db=openOrCreateDatabase("Trip",MODE_APPEND,null);
-        String q="create table if not exists Trip(tripid varchar,departure varchar ,startdate date,enddate date,budget varchar,remark varchar,rembudget varchar)";
-        db.execSQL(q);
-        SharedPreferences sp=getSharedPreferences("TripDB",0);
-       // String msg=sp.getString("STATUS","Not Initialized");
-        x=sp.getInt("TID",100);
+    public void new_trip(View v){
 
-        db.execSQL("insert into trip values('TIP"+x+"','"+et1.getText().toString()+"','"+et2.getText().toString()+"','"
-                    +et3.getText().toString()+"','"+et4.getText().toString()+"','"+et5.getText().toString()+"','"+et4.getText().toString()+"')");
-        Snackbar.make(findViewById(android.R.id.content),"TripID alloted:"+x, Snackbar.LENGTH_LONG).setActionTextColor(Color.RED).show();
-        //Snackbar.make(c, "TripID alloted:"+x, Snackbar.LENGTH_LONG).show();
-       // Toast.makeText(TripActivity.this,"TripID alloted:"+x,Toast.LENGTH_LONG).show();
-        x++;
-        SharedPreferences.Editor editor =sp.edit();
-        editor.putInt("TID",x);
-        editor.commit();
+        SQLiteDatabase d=openOrCreateDatabase("TripExpense",MODE_APPEND,null);
+        String s="create table if not exists trip1(TripID varchar primary key,Destination varchar,Source varchar,Startdate varchar,Enddate varchar," +
+                "Budget varchar,Remaining varchar)";
+        d.execSQL(s);
 
-        Toast.makeText(TripActivity.this,"New Trip Created",Toast.LENGTH_LONG).show();
-        Intent i=new Intent(TripActivity.this,ExpenseActivity.class);
-        i.putExtra("ID",x);
-        startActivity(i);
-        finish();
+        SharedPreferences sp=getSharedPreferences("Trip",0);
+        String p=sp.getString("STATUS","Not Initialized");
 
+        if(p.equals("Not Initialized")){
+            d.execSQL("insert into trip1 values('trip1','new york','delhi','12/03/2003','12/23/2003','40000','5000')");
+            SharedPreferences.Editor editor= sp.edit();
+            editor.putString("STATUS","Initialized");
+            editor.commit();
+            Toast.makeText(TripActivity.this,"record inserted and commited",Toast.LENGTH_LONG).show();
+
+        }
+        else {
+           // SharedPreferences sp = getSharedPreferences("Trip", 0);
+            String id = sp.getString("ID", "new");
+            String n = "insert into trip1 values('" + et6.getText().toString() + "','" + et1.getText().toString() + "','" + et5.getText().toString() + "','" + et2.getText().toString() + "','" + et3.getText().toString() + "','" + et4.getText().toString() + "','" + et4.getText().toString() + "')";
+            d.execSQL(n);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("ID", et6.getText().toString());
+            editor.commit();
+            Toast.makeText(TripActivity.this, "Added new trip", Toast.LENGTH_LONG).show();
+            d.close();
+        }
     }
+
 }

@@ -2,6 +2,7 @@ package com.hp.tripmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,6 +39,9 @@ public class LoginActivity extends AppCompatActivity{
         else {
             //Toast.makeText(LoginActivity.this, "working", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(LoginActivity.this, LoginResultActivity.class);
+            SQLiteDatabase db=openOrCreateDatabase("TripExpense", MODE_APPEND,null);
+            String q="create table if not exists login(username varchar,password varchar,email varchar,phone varchar,dob date)";
+            db.execSQL(q);
             intent.putExtra("USER", s1);
             intent.putExtra("PASS", s2);
             startActivity(intent);
@@ -47,6 +51,11 @@ public class LoginActivity extends AppCompatActivity{
         Intent i=new Intent(LoginActivity.this,SignupActivity.class);
         startActivity(i);
         Toast.makeText(LoginActivity.this,"signup",Toast.LENGTH_LONG).show();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
 }

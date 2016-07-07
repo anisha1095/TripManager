@@ -2,6 +2,7 @@ package com.hp.tripmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +20,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText editTextDate; //to input DOB
     Button buttonCreateAccount; //button to create account
 
-    //LoginDataBaseAdapter loginDataBaseAdapter;
-    LoginDataBaseAdapter loginDataBaseAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +33,16 @@ public class SignupActivity extends AppCompatActivity {
        setContentView(R.layout.activity_signup);
         Intent i=getIntent();
         //get instance of database adapter
-        loginDataBaseAdapter= new LoginDataBaseAdapter(this);
-        loginDataBaseAdapter=loginDataBaseAdapter.open();
+       // loginDataBaseAdapter= new LoginDataBaseAdapter(this);
+        //loginDataBaseAdapter=loginDataBaseAdapter.open();
 
         //get the reference of views
-        editTextUsername= (EditText) findViewById(R.id.editTextUsername);
-        editTextPassword= (EditText) findViewById(R.id.editTextPassword);
+        editTextUsername= (EditText) findViewById(R.id.editTextUsername);     //username
+        editTextPassword= (EditText) findViewById(R.id.editTextPassword);     //password
         editTextConfirmPassword= (EditText) findViewById(R.id.editTextConfirmPassword);
-        editTextEmail= (EditText) findViewById(R.id.editTextEmail);
-        editTextPhone= (EditText) findViewById(R.id.editTextPhone);
-        editTextDate= (EditText) findViewById(R.id.editTextDOB);
+        editTextEmail= (EditText) findViewById(R.id.editTextEmail);    //email
+        editTextPhone= (EditText) findViewById(R.id.editTextPhone);    //phone
+        editTextDate= (EditText) findViewById(R.id.editTextDOB);       //dob
 
         buttonCreateAccount= (Button) findViewById(R.id.buttonCreateAccount);
 
@@ -70,19 +71,25 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else
                 { //save data in database
-                    loginDataBaseAdapter.insertEntry(username, password,email,phone,dob);
+                    SQLiteDatabase db=openOrCreateDatabase("TripExpense",MODE_APPEND,null);
+                    String q="create table if not exists login(username varchar,password varchar,email varchar,phone varchar,dob date)";
+                    db.execSQL(q);
+                    String s= "insert into login values('"+username+"','"+password+"','"+email+"','"+phone+"','"+dob+"')";
+                    db.execSQL(s);
+                    //loginDataBaseAdapter.insertEntry(username, password,email,phone,dob);
                     Toast.makeText(getApplicationContext(),"Account Successfully Created!!",Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(SignupActivity.this,BudgetValueActivity.class);
+                    startActivity(i);
                 }
             }
-        }); //end of statement
-         // Intent it = new Intent(this,LoginResultActivity.class);
-        //it.putExtra("USER",editTextUsername.getText().toString());
-        //it.putExtra("PASS",edit)
+        });
+      //  Intent i=new Intent(this,BudgetValue.class);
+        //startActivity(i);
     } //end of onCreate() method
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        loginDataBaseAdapter.close();
-    } //end of onDestroy() method
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
 } //end of SignupActivity class

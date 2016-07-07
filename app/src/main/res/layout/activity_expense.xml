@@ -14,24 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Choose Category"
-            android:id="@+id/textView3"
+            android:id="@+id/textView2"
             android:layout_column="2" />
     </TableRow>
 
@@ -43,12 +31,6 @@
             android:id="@+id/spinner1"
             android:hint="Category"
             android:layout_column="3" />
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     </TableRow>
 
     <TableRow
@@ -79,25 +61,6 @@
             android:layout_span="4" />
     </TableRow>
 
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TableRow>
 
     <TableRow
         android:layout_width="match_parent"
