@@ -23,8 +23,9 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-               Intent i=new Intent(AboutActivity.this,BudgetValueActivity.class);
+               Intent i=new Intent(AboutActivity.this,StartScreen.class);
                 startActivity(i);
+                finish();
 
             }
         });//end of statement

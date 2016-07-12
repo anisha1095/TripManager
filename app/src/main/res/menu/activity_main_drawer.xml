@@ -17,6 +17,12 @@
         <item
             android:id="@+id/reports"
             android:title="Reports" />
+        <item
+            android:id="@+id/update"
+            android:title="Update Expenses" />
+        <item
+            android:id="@+id/del"
+            android:title="Delete Expenses" />
     </group>
     <!--
     <item android:title="Communicate">

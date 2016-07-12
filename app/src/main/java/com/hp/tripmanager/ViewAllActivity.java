@@ -29,63 +29,44 @@ public class ViewAllActivity extends ListActivity
     ArrayList destination;
     ArrayList duration;
     ArrayList budget;
+    String tripId,s,d,b,time;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         Intent intent=getIntent();
         SQLiteDatabase db=openOrCreateDatabase("TripExpense",MODE_APPEND,null);
-        String q="select * from trip1";
-        Cursor c=db.rawQuery(q,null);
-        String tripId,s,d,b,time;
-        id=new ArrayList();
-        source=new ArrayList();
-        destination=new ArrayList();
-        duration=new ArrayList();
-        budget=new ArrayList();
+        db.execSQL("create table if not exists trip1(TripID varchar primary key,Destination varchar,Source varchar,Startdate varchar,Enddate varchar," +
+            "Budget varchar,Remaining varchar)");
         SharedPreferences sp=getSharedPreferences("Trip",0);
-        String message=sp.getString("STATUS","Not initialized");
+        String status=sp.getString("STATUS","NOT Initialized");
 
-        if(message.equals("Not initialized"))
-        {
-            while (c.moveToNext())
-            {
-                String start,end;
-                tripId= c.getString(0);
+        if(status.equals("NOT Initialized")){
+            Toast.makeText(ViewAllActivity.this, "No records in Database", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String q = "select * from trip1";
+            Cursor c = db.rawQuery(q, null);
+
+            id = new ArrayList();
+            source = new ArrayList();
+            destination = new ArrayList();
+            duration = new ArrayList();
+            budget = new ArrayList();
+            while (c.moveToNext()) {
+                tripId = c.getString(0);
                 id.add(tripId);
-                s=c.getString(1);
+                s = c.getString(2);
                 source.add(s);
-                d=c.getString(2);
+                d = c.getString(1);
                 destination.add(d);
-                b=c.getString(5);
+                b = c.getString(5);
                 budget.add(b);
-
-                //calculating the duration
-                start=c.getString(3);
-                end=c.getString(4);
-                String st[]=start.split("/");
-                String fin[]=end.split("/");
-                int difference=Integer.parseInt(fin[2])-Integer.parseInt(st[2]);
-                time= String.valueOf(difference);
-                duration.add(time);
+                ArrayAdapter adapter = new MyAdapter(this, android.R.layout.simple_list_item_1, id);
+                setListAdapter(adapter);
             } //end of while loop
             db.close();
-
-            ArrayAdapter adapter=null;
-            adapter=new MyAdapter(this,android.R.layout.simple_list_item_1,id);
-            setListAdapter(adapter);
-
-            SharedPreferences.Editor editor=sp.edit();
-            editor.putString("STATUS","Initialized");
-            editor.commit();
-        } //end of if block
-        else
-        {
-            Toast.makeText(this,"Already exists",Toast.LENGTH_SHORT).show();
-            ArrayAdapter adapter=null;
-            adapter=new MyAdapter(this,android.R.layout.simple_list_item_1,id);
-            setListAdapter(adapter);
-        } //end of else block
+        }
     } //end of onCreate() method
 
     class MyAdapter extends ArrayAdapter
@@ -102,9 +83,19 @@ public class ViewAllActivity extends ListActivity
             View row = li.inflate(R.layout.activity_view_all, parent, false);
             TextView tv1 = (TextView) row.findViewById(R.id.textView1);
             TextView tv2 = (TextView) row.findViewById(R.id.textView2);
-            tv1.setText("Trip ID:" + id+"   From:"+source+" To:"+destination);
-            tv2.setText("Duration:"+duration+"  Budget:"+budget);
+            tv1.setText(id.get(position) +" "+ source.get(position) +"-"+ destination.get(position));
+            tv2.setText("Budget:"+ budget.get(position));
+            tripId=id.get(position).toString();
             return row;
         } //end of getView() method
     } //end of MyAdapter class
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Toast.makeText(ViewAllActivity.this, "Working", Toast.LENGTH_SHORT).show();
+        Intent i=new Intent(ViewAllActivity.this,UpdateDeleteActivity.class);
+        i.putExtra("ID",tripId);
+        startActivity(i);
+    }
 } //end of DynamicArrayActivity class

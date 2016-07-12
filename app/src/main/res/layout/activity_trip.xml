@@ -18,7 +18,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.hp.tripmanager.TripActivity">
+    tools:context="com.hp.tripmanager.TripActivity"
+    android:background="@drawable/image">
 
 
     <Button
@@ -34,12 +35,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/editText1"
         android:paddingBottom="24dp"
         android:hint="Destination"
-        android:layout_above="@+id/editText6"
+        android:layout_above="@+id/editText7"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/editText7" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -47,7 +48,7 @@
         android:inputType="date"
         android:ems="10"
         android:paddingBottom="24dp"
-        android:id="@+id/editText3"
+        android:id="@+id/editText2"
         android:hint="Start Date(MM/DD/YYYY)"
         android:layout_above="@+id/editText4"
         android:layout_alignParentStart="true"
@@ -92,9 +93,9 @@
         android:id="@+id/editText6"
         android:paddingBottom="24dp"
         android:hint="From"
-        android:layout_above="@+id/editText3"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/editText1"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/editText1" />
 
 
 </RelativeLayout>

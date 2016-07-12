@@ -9,8 +9,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -36,6 +39,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView text=(TextView)navigationView.findViewById(R.id.textView1);
+        SharedPreferences sp=getSharedPreferences("Trip1",0);
+        String s=sp.getString("NAME","USER");
+        if(s.equals("USER")){
+            text.setText("USER");
+        }
+        else{
+            text.setText(s);
+        }
+
 
     }//end of onCreate
 
@@ -108,7 +121,14 @@ public class MainActivity extends AppCompatActivity
             Intent i=new Intent(MainActivity.this,RadioActivity.class);
             startActivity(i);
 
-
+        }
+        else if(id==R.id.update){
+            Intent i=new Intent(MainActivity.this,ExpenseUpdate.class);
+            startActivity(i);
+        }
+        else if(id==R.id.del){
+            Intent i=new Intent(MainActivity.this,ExpenseDelete.class);
+            startActivity(i);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

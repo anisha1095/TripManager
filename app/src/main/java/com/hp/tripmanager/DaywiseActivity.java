@@ -1,5 +1,7 @@
 package com.hp.tripmanager;
 
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,25 +18,25 @@ import android.widget.Toast;
 public class DaywiseActivity extends MainActivity
 {
     TableLayout tl;
-    /// TextView tv1,tv2,tv3;
+    TextView tv1,tv2,tv3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_daywise);
+        // setContentView(R.layout.activity_daywise);
         LayoutInflater inflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView=inflater.inflate(R.layout.activity_daywise,null,false);
         drawer.addView(contentView,0);
-        // tv1=(TextView)findViewById(R.id.textView1);
-        // tv2=(TextView)findViewById(R.id.textView2);
-        // tv3=(TextView)findViewById(R.id.textView3);
-        /*
-        tl=(TableLayout)findViewById(R.id.tableLayout);
+        tv1=(TextView)findViewById(R.id.textView1);
+        tv2=(TextView)findViewById(R.id.textView2);
+        tv3=(TextView)findViewById(R.id.textView3);
+
+        tl=(TableLayout)findViewById(R.id.tableLayout1);
 
         Intent intent=getIntent();
         SQLiteDatabase db=openOrCreateDatabase("TripExpense", MODE_APPEND, null);//TripExpense
-        String q="SELECT * FROM expense,trip order by Expense_Date";
+        String q="SELECT * FROM Expenses group by TripID,Expense_Date";
         Cursor c=db.rawQuery(q,null);
         String ExpenseID,Date,To,Amount;
         TableRow tr;
@@ -43,17 +45,17 @@ public class DaywiseActivity extends MainActivity
 
 
             ExpenseID = c.getString(0);
-            Date = c.getString(3);
-            Amount=c.getString(2);
+            Date = c.getString(4);
+            Amount=c.getString(3);
 
             tr = new TableRow(this);
             TextView tv1 = new TextView(this);
             TextView tv2 = new TextView(this);
             TextView tv3=new TextView(this);
-            tv1.setText("ExpenseID="+ExpenseID+"    ");
-            tv2.setText("Date="+Date+"    ");
-          //  tv3.setText("To="+destination+"");
-            //tv4.setText("Amount="+Amount+"    ");
+            tv1.setText(ExpenseID+"    ");
+            tv2.setText(Date+"    ");
+            //  tv3.setText("To="+destination+"");
+            tv3.setText(Amount+"    ");
             tr.addView(tv1);
             tr.addView(tv2);
             tr.addView(tv3);
@@ -61,8 +63,7 @@ public class DaywiseActivity extends MainActivity
             tl.addView(tr);
         } //end of while
         db.close();
-        setResult(999,intent);
-        */
+        //setResult(999,intent);
         Toast.makeText(this,"Daywise working",Toast.LENGTH_LONG).show();
     }//oncreate
 }//public Daywise
