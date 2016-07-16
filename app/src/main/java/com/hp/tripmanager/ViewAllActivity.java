@@ -24,7 +24,7 @@ import android.app.Activity;
 
 public class ViewAllActivity extends ListActivity
 {
-    ArrayList id;
+    ArrayList<String> id= new ArrayList<>();
     ArrayList source;
     ArrayList destination;
     ArrayList duration;
@@ -48,7 +48,7 @@ public class ViewAllActivity extends ListActivity
             String q = "select * from trip1";
             Cursor c = db.rawQuery(q, null);
 
-            id = new ArrayList();
+            //id = new ArrayList<String>();
             source = new ArrayList();
             destination = new ArrayList();
             duration = new ArrayList();
@@ -64,6 +64,7 @@ public class ViewAllActivity extends ListActivity
                 budget.add(b);
                 ArrayAdapter adapter = new MyAdapter(this, android.R.layout.simple_list_item_1, id);
                 setListAdapter(adapter);
+
             } //end of while loop
             db.close();
         }
@@ -83,17 +84,20 @@ public class ViewAllActivity extends ListActivity
             View row = li.inflate(R.layout.activity_view_all, parent, false);
             TextView tv1 = (TextView) row.findViewById(R.id.textView1);
             TextView tv2 = (TextView) row.findViewById(R.id.textView2);
+
             tv1.setText(id.get(position) +" "+ source.get(position) +"-"+ destination.get(position));
             tv2.setText("Budget:"+ budget.get(position));
-            tripId=id.get(position).toString();
+           // tripId=id.get(position).toString();
             return row;
         } //end of getView() method
     } //end of MyAdapter class
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Toast.makeText(ViewAllActivity.this, "Working", Toast.LENGTH_SHORT).show();
+    protected void onListItemClick(ListView l, View v, int position, long ids) {
+        super.onListItemClick(l, v, position, ids);
+        //Toast.makeText(ViewAllActivity.this, "Working", Toast.LENGTH_SHORT).show();
+       int po=position;
+        tripId= id.get(position).toString();
         Intent i=new Intent(ViewAllActivity.this,UpdateDeleteActivity.class);
         i.putExtra("ID",tripId);
         startActivity(i);

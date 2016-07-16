@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,21 +37,22 @@ public class TripActivity extends MainActivity {
 
     }//end of onCreate()
 
-    public void new_trip(View v){
+    public void new_trip(View v) throws ParseException {
 
         SQLiteDatabase d=openOrCreateDatabase("TripExpense",MODE_APPEND,null);
         String s="create table if not exists trip1(TripID varchar primary key,Destination varchar,Source varchar,Startdate varchar,Enddate varchar," +
                 "Budget varchar,Remaining varchar)";
         d.execSQL(s);
-        if(isDateValid(et2.getText().toString(),"MM/dd/yyyy")&&isDateValid(et3.getText().toString(),"MM/dd/yyyy")) {
+        if(isDateValid(et2.getText().toString(),"MM/dd/yyyy")&&isDateValid(et3.getText().toString(),"MM/dd/yyyy"))
 
+        {
             try {
-                d1 = parseDate(et2.getText().toString(), "MM/dd/yyyy");
+                d1 = parseDate(et2.getText().toString(), "MM/dd/yyyy");  //start
             } catch (ParseException e) {
 
             }
             try {
-                d2 = parseDate(et3.getText().toString(), "MM/dd/yyyy");
+                d2 = parseDate(et3.getText().toString(), "MM/dd/yyyy"); //end
             } catch (ParseException e) {
 
             }
@@ -58,28 +60,41 @@ public class TripActivity extends MainActivity {
                 Toast.makeText(TripActivity.this, "Start Date after End Date. Enter correct dates.", Toast.LENGTH_SHORT).show();
                 return;
             }
-        }
-        else{
-            Toast.makeText(TripActivity.this, "InValid Date", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            Date dateobj = new Date();
+            Date da = parseDate(df.format(dateobj), "MM/dd/yyyy"); //current date
+            if(da.after(d2)&&d1.before(da)){
+                Toast.makeText(TripActivity.this, "Trip End Date should be later than the current date or start date should be after the current date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            SharedPreferences sp = getSharedPreferences("Trip", 0);
+            String p = sp.getString("STATUS", "Not Initialized");
 
-           SharedPreferences sp=getSharedPreferences("Trip",0);
-           String p=sp.getString("STATUS","Not Initialized");
-
-            String id = sp.getString("ID", "new");
-            String n = "insert into trip1 values('" + et6.getText().toString() + "','" + et1.getText().toString() + "','" + et5.getText().toString() + "','" + et2.getText().toString() + "','" + et3.getText().toString() + "','" + et4.getText().toString() + "','" + et4.getText().toString() + "')";
-            d.execSQL(n);
+            String id = sp.getString("ID", "trip1");
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("STATUS","Initialized");
+            editor.putString("STATUS", "Initialized");
             editor.putString("ID", et6.getText().toString());
             editor.commit();
+            String n = "insert into trip1 values('" + et6.getText().toString() + "','" + et1.getText().toString() + "','" + et5.getText().toString() + "','" + et2.getText().toString() + "','" + et3.getText().toString() + "','" + et4.getText().toString() + "','" + et4.getText().toString() + "')";
+            d.execSQL(n);
+
             Toast.makeText(TripActivity.this, "Added new trip", Toast.LENGTH_LONG).show();
             d.close();
-          Intent i=new Intent (TripActivity.this,StartScreen.class);
-        startActivity(i);
-       // }
+            Intent i = new Intent(TripActivity.this, StartScreen.class);
+            startActivity(i);
+        }
+
+        else{
+                Toast.makeText(TripActivity.this, "InValid Date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+
     }
+
+
+
     private Date parseDate(String date, String format) throws ParseException
     {
         SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -99,3 +114,19 @@ public class TripActivity extends MainActivity {
     }
 
 }
+/*
+try {
+                        thedate = parseDate(c.getString(4), "MM/dd/yyyy");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        da = parseDate(df.format(dateobj), "MM/dd/yyyy");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (da.after(thedate)) {  //current date after trip end date
+                        Toast.makeText(BudgetValueActivity.this, "No Ongoing or Upcoming Trips", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+ */

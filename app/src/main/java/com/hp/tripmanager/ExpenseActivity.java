@@ -3,6 +3,7 @@ package com.hp.tripmanager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class ExpenseActivity extends MainActivity {
     String x = "0";
     Spinner s1;
     Button b1;
+    String id;
+    String rem;
     Date dat;
      int pos;
     String category[] = {"None selected", "Meal", "Travel", "Lodging", " Miscellaneous"};
@@ -182,19 +185,40 @@ public class ExpenseActivity extends MainActivity {
 
                 else {
                     SQLiteDatabase db = openOrCreateDatabase("TripExpense", MODE_APPEND, null);
-                   /* SharedPreferences sp=getSharedPreferences("Trip",0);
+                    SharedPreferences sp=getSharedPreferences("Trip",0);
                     String y=sp.getString("ID","trip1");
                      x=sp.getString("EID","0");
                     int z=Integer.parseInt(x);
                     z++;
-                    x= String.valueOf(z);*/
+                    x= String.valueOf(z);
                     db.execSQL(" Create table if not exists Expenses(ExpenseID integer primary key autoincrement,Category varchar,Particular varchar,Amount Varchar,Expense_Date varchar,TripID varchar)");
                     db.execSQL("insert into Expenses values( null" + ",'" + category[pos] + "','" + et3.getText().toString() + "','" +
                             et1.getText().toString()+"','"  + et2.getText().toString() + "','" + y + "')");
-                    //show("Trip ID:T" + y + "Expense ID:E" + x);
-                   // SharedPreferences.Editor e=sp.edit();
-                   // e.putString("EID",x);
-                    //e.commit();
+                    show("Trip ID:T" + y + "Expense ID:E" + x);
+                    SharedPreferences.Editor e=sp.edit();
+                    e.putString("EID",x);
+                    e.commit();
+                    String p="select * from trip1";
+                    Cursor c=db.rawQuery(p,null);
+
+                    while(c.moveToNext()){
+                        rem=c.getString(6);
+                        id=c.getString(0);
+
+                    }
+                    int re=Integer.parseInt(rem);
+                    int amt=Integer.parseInt(et1.getText().toString());
+                    if(re<amt){
+                        Toast.makeText(ExpenseActivity.this, "Insufficient balance", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        re=re-amt;
+                        rem=String.valueOf(re);
+                        db.execSQL("update trip1 set remaining='"+rem+"' where TripID='"+id+"'");
+
+                    }
+                    db.close();
+
 
                     //show(category[pos]);
                     Toast.makeText(ExpenseActivity.this, "Recorded", Toast.LENGTH_SHORT).show();

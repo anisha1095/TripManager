@@ -58,6 +58,6 @@ public class CategorywiseActivity extends MainActivity {
         } //end of while
         db.close();
        // setResult(999, intent);
-        Toast.makeText(this,"category working",Toast.LENGTH_LONG).show();
+       // Toast.makeText(this,"category working",Toast.LENGTH_LONG).show();
     }//oncreate
 }//catwise

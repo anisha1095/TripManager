@@ -64,6 +64,6 @@ public class DaywiseActivity extends MainActivity
         } //end of while
         db.close();
         //setResult(999,intent);
-        Toast.makeText(this,"Daywise working",Toast.LENGTH_LONG).show();
+       // Toast.makeText(this,"Daywise working",Toast.LENGTH_LONG).show();
     }//oncreate
 }//public Daywise

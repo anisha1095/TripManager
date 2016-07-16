@@ -19,7 +19,10 @@ public class ExpenseDelete extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expense_delete);
+       // setContentView(R.layout.activity_expense_delete);
+        LayoutInflater inflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView=inflater.inflate(R.layout.activity_expense_delete,null,false);
+        drawer.addView(contentView,0);
         et1 = (EditText) findViewById(R.id.editText1);
         bt1 = (Button) findViewById(R.id.button1);
     }

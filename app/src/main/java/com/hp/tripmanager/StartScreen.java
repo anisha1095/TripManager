@@ -17,7 +17,7 @@ public class StartScreen extends MainActivity {
         LayoutInflater inflater=(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView=inflater.inflate(R.layout.activity_start_screen,null,false);
         drawer.addView(contentView,0);
-        Toast.makeText(this, "WELCOME", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "WELCOME", Toast.LENGTH_SHORT).show();
 
     }
 

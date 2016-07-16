@@ -23,8 +23,8 @@ public class LoginActivity extends AppCompatActivity{
         //View contentView=inflater.inflate(R.layout.activity_login,null,false);
         //drawer.addView(contentView,0);
         //add this to call the Navigation menu.
-        e1=(EditText)findViewById(R.id.editText2);
-        e2=(EditText)findViewById(R.id.editText2);
+        e1=(EditText)findViewById(R.id.editText1);//user
+        e2=(EditText)findViewById(R.id.editText2);//pass
         b1=(Button)findViewById(R.id.button1);
        // b2=(Button)findViewById(R.id.button2);
 
